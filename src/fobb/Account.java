@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package fobb;
 
 /**
@@ -9,10 +5,11 @@ package fobb;
  * @author AmmarKapadia
  */
 public class Account {
+
     private String accountNumber;   // All private attributes
     private String accountHolder;
     private double balance;
-    
+
     public Account(String accountNumber, String accountHolder, double initialBalance) {  // Constructor
         setAccountNumber(accountNumber); // Implement Account Number Validation using Mutator
         this.accountHolder = accountHolder;
@@ -24,7 +21,7 @@ public class Account {
         return accountNumber;
     }
 
-    public void setInitialBalance(double initialBalance){
+    public void setInitialBalance(double initialBalance) {
         if (initialBalance >= 0) {
             this.balance = initialBalance;
         } else {
@@ -32,7 +29,7 @@ public class Account {
             this.balance = 0;
         }
     }
-    
+
     public void setAccountNumber(String accountNumber) {
         if (accountNumber == null) {
             throw new IllegalArgumentException("Account number cannot be null.");
@@ -72,7 +69,7 @@ public class Account {
         System.out.println("---------------------------");
         System.out.println("Account Holder: " + accountHolder);
         System.out.println("Account Number: " + accountNumber);
-        System.out.printf("Current Balance: $%.2f" , balance);
+        System.out.printf("Current Balance: $%.2f", balance);
         System.out.println("");
         System.out.println("---------------------------");
     }
@@ -93,10 +90,9 @@ public class Account {
             return false;
         }
     }
-    
+
     public void calculateInterest() { // Calculates interest. Base class provides a default (0%).
         // Subclasses will override this method with appropriate rates.
         System.out.println("No interest applicable for a standard account.");
     }
 }
-
