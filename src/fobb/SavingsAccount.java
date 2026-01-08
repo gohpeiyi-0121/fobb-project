@@ -1,7 +1,11 @@
+package fobb;
+
 /**
  * SavingsAccount.java
  * A subclass of Account that represents a savings account with custom
  * interest calculation and withdrawal rules.
+ * 
+ * @author [Goh Pei Yi]
  */
 public class SavingsAccount extends Account {
     
@@ -15,15 +19,15 @@ public class SavingsAccount extends Account {
      * Constructor for SavingsAccount
      * @param accountNumber Unique account identifier
      * @param accountHolder Name of account holder
-     * @param balance Initial account balance
+     * @param initialBalance Initial account balance
      * @param interestRate Annual interest rate (e.g., 0.03 for 3%)
      * @param minimumBalance Minimum required balance
      * @param withdrawalLimit Maximum withdrawal per transaction
      */
-    public SavingsAccount(String accountNumber, String accountHolder, double balance,
+    public SavingsAccount(String accountNumber, String accountHolder, double initialBalance,
                          double interestRate, double minimumBalance, double withdrawalLimit) {
         // Call parent constructor
-        super(accountNumber, accountHolder, balance);
+        super(accountNumber, accountHolder, initialBalance);
         
         // Initialize SavingsAccount specific attributes
         this.interestRate = interestRate;
@@ -62,18 +66,33 @@ public class SavingsAccount extends Account {
     /**
      * Overridden calculateInterest method
      * Implements compound interest calculation for savings account
-     * Formula: A = P(1 + r/n)^(nt)
-     * For monthly compounding: n = 12
-     * @return The calculated interest amount
+     * Prints interest information (matching parent class style)
      */
     @Override
-    public double calculateInterest() {
+    public void calculateInterest() {
         // Compound interest calculation
         double monthlyRate = interestRate / 12;  // Monthly interest rate
         double compoundFactor = Math.pow(1 + monthlyRate, monthsActive);
         double interest = getBalance() * (compoundFactor - 1);
         
-        return interest;
+        // Display interest information (matching Ammar's style)
+        if (monthsActive > 0) {
+            System.out.println("Savings Account Interest: $" + String.format("%.2f", interest) + 
+                             " (Rate: " + String.format("%.2f", interestRate * 100) + 
+                             "%, Months: " + monthsActive + ")");
+        } else {
+            System.out.println("No interest yet - account is new.");
+        }
+    }
+    
+    /**
+     * Method to get calculated interest amount (separate from display)
+     * @return The calculated interest amount
+     */
+    public double getInterestAmount() {
+        double monthlyRate = interestRate / 12;
+        double compoundFactor = Math.pow(1 + monthlyRate, monthsActive);
+        return getBalance() * (compoundFactor - 1);
     }
     
     /**
@@ -81,14 +100,16 @@ public class SavingsAccount extends Account {
      * Adds calculated interest to balance and resets months counter
      */
     public void applyInterest() {
-        double interest = calculateInterest();
-        deposit(interest);  // Add interest to balance
-        
-        System.out.println("Interest applied: $" + String.format("%.2f", interest) +
-                         " | New balance: $" + String.format("%.2f", getBalance()));
-        
-        // Reset months counter after applying interest
-        monthsActive = 0;
+        double interest = getInterestAmount();
+        if (interest > 0) {
+            deposit(interest);  // Add interest to balance using parent's deposit method
+            
+            System.out.println("Interest applied: $" + String.format("%.2f", interest) +
+                             " | New balance: $" + String.format("%.2f", getBalance()));
+            
+            // Reset months counter after applying interest
+            monthsActive = 0;
+        }
     }
     
     /**
@@ -127,16 +148,16 @@ public class SavingsAccount extends Account {
     }
     
     /**
-     * Overridden toString method to include savings account details
-     * @return String representation of SavingsAccount
+     * Display enhanced account info including savings-specific details
+     * Extends parent's displayAccountInfo method
      */
-    @Override
-    public String toString() {
-        return super.toString() + 
-               "\nAccount Type: Savings Account" +
-               "\nInterest Rate: " + String.format("%.2f", interestRate * 100) + "%" +
-               "\nMinimum Balance: $" + String.format("%.2f", minimumBalance) +
-               "\nWithdrawal Limit: $" + String.format("%.2f", withdrawalLimit) +
-               "\nMonths Active: " + monthsActive;
+    public void displaySavingsAccountInfo() {
+        displayAccountInfo();  // Call parent's display method
+        System.out.println("Account Type: Savings Account");
+        System.out.println("Interest Rate: " + String.format("%.2f", interestRate * 100) + "%");
+        System.out.println("Minimum Balance: $" + String.format("%.2f", minimumBalance));
+        System.out.println("Withdrawal Limit: $" + String.format("%.2f", withdrawalLimit));
+        System.out.println("Months Active: " + monthsActive);
+        System.out.println("---------------------------");
     }
 }
