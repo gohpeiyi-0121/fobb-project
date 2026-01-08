@@ -1,28 +1,30 @@
+package fobb;
+
 /**
- * BankingSystemTest.java
- * Main class to test the Banking System with SavingsAccount
+ * TestSavingsAccount.java
+ * Test program to demonstrate SavingsAccount functionality
+ * Compatible with Ammar's Account base class
  */
-public class BankingSystemTest {
+public class TestSavingsAccount {
     public static void main(String[] args) {
-        System.out.println("=== BANKING SYSTEM TEST ===\n");
+        System.out.println("=== SAVINGS ACCOUNT TEST ===\n");
         
-        // Create a savings account with initial parameters
+        // Create a savings account
         SavingsAccount savings = new SavingsAccount(
-            "SAV001",                    // Account number
-            "John Doe",                  // Account holder
-            5000.00,                     // Initial balance
-            0.03,                        // 3% annual interest rate
-            1000.00,                     // Minimum balance required
-            2000.00                      // Withdrawal limit per transaction
+            "SAV123456",              // Account number (8-10 digits as per Ammar's validation)
+            "John Doe",               // Account holder
+            5000.00,                  // Initial balance
+            0.03,                     // 3% annual interest rate
+            1000.00,                  // Minimum balance required
+            2000.00                   // Withdrawal limit per transaction
         );
         
         System.out.println("=== 1. INITIAL ACCOUNT INFO ===");
-        System.out.println(savings);
+        savings.displaySavingsAccountInfo();
         
         System.out.println("\n=== 2. TESTING DEPOSIT ===");
         savings.deposit(500.00);
-        System.out.println("Deposited $500.00. New balance: $" + 
-                          String.format("%.2f", savings.getBalance()));
+        System.out.println("Current balance: $" + String.format("%.2f", savings.getBalance()));
         
         System.out.println("\n=== 3. TESTING WITHDRAWAL RULES ===");
         
@@ -51,8 +53,8 @@ public class BankingSystemTest {
         }
         
         // Calculate and display interest
-        double interest = savings.calculateInterest();
-        System.out.println("\nInterest after 6 months: $" + String.format("%.2f", interest));
+        System.out.println("\nCalculating interest...");
+        savings.calculateInterest();
         
         // Apply the interest to the account
         System.out.println("\nApplying interest to account...");
@@ -62,7 +64,11 @@ public class BankingSystemTest {
         savings.updateInterestRate(0.035); // Update to 3.5%
         
         System.out.println("\n=== 6. FINAL ACCOUNT INFO ===");
-        System.out.println(savings);
+        savings.displaySavingsAccountInfo();
+        
+        System.out.println("\n=== 7. TESTING ACCOUNT INFO METHODS ===");
+        System.out.println("\nUsing parent's displayAccountInfo():");
+        savings.displayAccountInfo();
         
         System.out.println("\n=== TEST COMPLETE ===");
     }
